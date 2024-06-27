@@ -32,10 +32,14 @@ const fetchUsers = (db) => {
   const store = transaction.objectStore(storeName);
   const request = store.getAll();
 
-  request.onsuccess = (event) => {
-    console.log('Fetched users:', event.target.result);
-    return event.target.result;
-  };
+  return new Promise((resolve, reject) => {
+    request.onsuccess = () => {
+      resolve(request.result);
+    };
+    request.onerror = () => {
+      reject(request.error);
+    };
+  });
 };
 
 const deleteUser = (db, userId) => {

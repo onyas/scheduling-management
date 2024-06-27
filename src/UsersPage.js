@@ -31,7 +31,7 @@ function UsersPage() {
         setUsers(await fetchUsers(db));
     }
     fetchData();
-  }, [users]);
+  }, []);
 
   return (
     <div className="App">

@@ -6,29 +6,24 @@ import {
   Table,
 } from 'antd';
 
+const { Column } = Table;
+
 const UserList = ({ users, deleteUser }) => {
   console.log('UserList users:', users);
-  const columns = [
-    {
-      title: 'ID',
-      dataIndex: 'id',
-      key: 'id',
-    },
-    {
-      title: 'Name',
-      dataIndex: 'name',
-      key: 'name',
-    },
-    {
-      title: 'Action',
-      key: 'action',
-      render: (text, record) => (
-        <Button onClick={() => deleteUser(record.id)}>Delete</Button>
-      ),
-    },
-  ];
-
-  return <Table columns={columns} dataSource={users} rowKey={record => record.id} />;
+  return (<div>
+  <Table dataSource={users} rowKey="id">
+        <Column title="名字" dataIndex="name" key="name" />
+        <Column
+          title="操作"
+          key="action"
+          render={(text, record) => (
+            <Button type="danger" size="small" onClick={() => deleteUser(record.id)}>
+              删除
+            </Button>
+          )}
+        />
+      </Table>
+      </div>);
 };
 
 export default UserList;
