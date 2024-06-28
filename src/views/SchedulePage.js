@@ -6,7 +6,7 @@ import dayjs from "dayjs";
 import ScheduleButton from "../components/ScheduleButton";
 import ScheduleCalendar from "../components/ScheduleCalendar";
 import holidaysData from "../utils/2024.json";
-import { addData, fetchData, openDB } from "../utils/indexedDB";
+import { addData, deleteById, fetchData, openDB } from "../utils/indexedDB";
 
 dayjs.locale("zh-cn");
 
@@ -97,9 +97,22 @@ const SchedulePage = () => {
     setScheduleList(schedule); // Update the state with the new schedule
   };
 
+  const handleClean = async () => {
+    const db = await openDB("scheduleDB", "scheduleList");
+    const scheduleInDB = await fetchData(db, "scheduleList");
+    scheduleInDB.forEach(async (event) => {
+      await deleteById(db, "scheduleList", event.id);
+    });
+    setScheduleList([]);
+    message.success("清理成功");
+  };
+
   return (
     <div>
-      <ScheduleButton onSchedule={handleStartScheduling} />
+      <ScheduleButton
+        onSchedule={handleStartScheduling}
+        onClean={handleClean}
+      />
       <ScheduleCalendar events={scheduleList} />
     </div>
   );
