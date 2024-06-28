@@ -2,14 +2,14 @@
 import React from 'react';
 
 import ScheduleButton from '../components/ScheduleButton';
-import ScheduleList from '../components/ScheduleList';
+import ScheduleCalendar from "../components/ScheduleCalendar";
 
 const SchedulePage = () => {
     return (
-        <div className="App">
-            <ScheduleButton  />
-            <ScheduleList />
-        </div>
+      <div className="App">
+        <ScheduleButton />
+        <ScheduleCalendar />
+      </div>
     );
 };
 

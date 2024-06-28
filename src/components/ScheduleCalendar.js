@@ -69,9 +69,11 @@ const ScheduleCalendar = () => {
     return info.originNode;
   };
 
-  return  <ConfigProvider locale={locale}>
-            <Calendar cellRender={cellRender} />
-            </ConfigProvider>;
+  return (
+    <ConfigProvider locale={locale}>
+      <Calendar cellRender={cellRender} />
+    </ConfigProvider>
+  );
 };
 
 export default ScheduleCalendar;
