@@ -1,3 +1,5 @@
+import 'dayjs/locale/zh-cn';
+
 import React, {
   useEffect,
   useState,
@@ -6,18 +8,24 @@ import React, {
 import {
   Badge,
   Calendar,
+  ConfigProvider,
 } from 'antd';
-import dayjs from 'dayjs'; // 确保已经安装了dayjs
+import zhCN from 'antd/locale/zh_CN';
+import dayjs from 'dayjs';
 
 import {
   fetchData,
   openDB,
 } from '../utils/indexedDB';
 
-const App = () => {
+dayjs.locale('zh-cn');
+
+const ScheduleCalendar = () => {
   const dbName = 'scheduleDB';
   const storeName = 'scheduleList';
   const [userEvents, setUserEvents] = useState([]);
+  const [locale] = useState(zhCN);
+
 
   useEffect(() => {
     const loadEvents = async () => {
@@ -61,7 +69,9 @@ const App = () => {
     return info.originNode;
   };
 
-  return <Calendar cellRender={cellRender} />;
+  return  <ConfigProvider locale={locale}>
+            <Calendar cellRender={cellRender} />
+            </ConfigProvider>;
 };
 
-export default App;
+export default ScheduleCalendar;
