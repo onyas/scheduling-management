@@ -3,19 +3,17 @@ import React, {
   useState,
 } from 'react';
 
-import {
-  Avatar,
-  List,
-} from 'antd';
+import { List } from 'antd';
 
 import {
   fetchData,
   openDB,
-} from './utils/indexedDB';
+} from '../utils/indexedDB';
+import CalendarComponent from './Calendar';
 
 const ScheduleList = () => {
-    const dbName = 'userDB';
-    const storeName = 'scheduleList';
+  const dbName = 'scheduleDB';
+  const storeName = 'scheduleList';
   const [schedules, setSchedules] = useState([]);
 
   useEffect(() => {
@@ -23,7 +21,7 @@ const ScheduleList = () => {
   }, []);
 
   const checkAndLoadSchedules = async () => {
-    const db = await openDB(dbName,storeName);
+    const db = await openDB(dbName, storeName);
     setSchedules(await fetchData(db, storeName));
   };
 
@@ -36,7 +34,6 @@ const ScheduleList = () => {
           renderItem={(item, index) => (
             <List.Item>
               <List.Item.Meta
-                avatar={<Avatar src={item.avatar} />}
                 title={item.title}
                 description={item.description}
               />
@@ -44,7 +41,7 @@ const ScheduleList = () => {
           )}
         />
       ) : (
-        <div>当前没有排班数据，只展示月历</div>
+        <CalendarComponent />
       )}
     </div>
   );

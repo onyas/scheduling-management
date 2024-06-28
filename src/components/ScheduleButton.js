@@ -1,21 +1,16 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import { Button } from 'antd';
 
 import {
-  fetchUsers,
+  fetchData,
   openDB,
-} from './utils/indexedDB';
+} from '../utils/indexedDB';
 
 const ScheduleButton = () => {
-    const dbName = 'userDB';
-    const storeName = 'users';
-  const [users, setUsers] = useState([]);
-
-
   const handleStartScheduling = async () => {
-    const db = await openDB(dbName,storeName);
-    setUsers(await fetchUsers(db, storeName));
+    const db = await openDB("userDB", "users");
+    const userList = await fetchData(db, "users");
   };
 
   return (
