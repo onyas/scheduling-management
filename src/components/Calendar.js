@@ -23,10 +23,13 @@ const App = () => {
     const loadEvents = async () => {
         const db = await openDB(dbName, storeName);
         const userData = await fetchData(db, storeName);
-        const events = userData.map(user => ({
-        type: 'success', // 假设所有事件类型都是'success'
-        content: user.name, // 事件内容设置为用户姓名
+        console.log("scheduleList data:",userData);
+        const events = userData.map(schedule => ({
+        type: 'success', 
+        content: schedule.title, 
+        date: schedule.date
       }));
+      console.log("events",events);
       setUserEvents(events);
     };
 
@@ -35,12 +38,13 @@ const App = () => {
 
   const getListData = (value: dayjs.Dayjs) => {
     return userEvents
-      .filter(event => dayjs(event.date).isSame(value, 'day'))
+      .filter(event => event.date === value.format('YYYY-MM-DD'))
       .map(event => ({ type: event.type, content: event.content }));
   };
 
   const dateCellRender = (value: dayjs.Dayjs) => {
     const listData = getListData(value);
+    console.log("listData",listData);
     return (
       <ul className="events">
         {listData.map((item) => (

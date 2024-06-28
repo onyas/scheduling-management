@@ -16,13 +16,13 @@ const openDB = (dbName, storeName) => {
   });
 };
 
-const addData = (db, storeName, user) => {
+const addData = (db, storeName, data) => {
   const transaction = db.transaction([storeName], 'readwrite');
   const store = transaction.objectStore(storeName);
-  const request = store.add(user);
+  const request = store.add(data);
 
-  request.onsuccess = () => console.log('User added successfully');
-  request.onerror = () => console.error('Failed to add user');
+  request.onsuccess = () => console.log('data added successfully');
+  request.onerror = () => console.error('Failed to add data');
 };
 
 const fetchData = (db, storeName) => {
