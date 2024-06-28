@@ -5,6 +5,7 @@ import dayjs from "dayjs";
 
 import ScheduleButton from "../components/ScheduleButton";
 import ScheduleCalendar from "../components/ScheduleCalendar";
+import holidaysData from "../utils/2024.json";
 import { addData, fetchData, openDB } from "../utils/indexedDB";
 
 dayjs.locale("zh-cn");
@@ -12,7 +13,18 @@ dayjs.locale("zh-cn");
 const SchedulePage = () => {
   const [scheduleList, setScheduleList] = useState([]);
   const [userList, setUserList] = useState([]);
+  const offDaysMap = new Map();
+  const workDaysMap = new Map();
 
+  holidaysData.days.forEach(({ date, name, isOffDay }) => {
+    if (isOffDay) {
+      offDaysMap.set(date, name);
+    } else {
+      workDaysMap.set(date, "补班");
+    }
+  });
+  console.log("offDaysMap", offDaysMap);
+  console.log("workDaysMap", workDaysMap);
   useEffect(() => {
     const loadUserList = async () => {
       const db = await openDB("userDB", "users");
@@ -49,12 +61,25 @@ const SchedulePage = () => {
     let schedule = [];
 
     for (let day = 1; day <= daysInMonth; day++) {
+      const dayOfWeek = dayjs().month(currentMonth).date(day).day();
+      const date = dayjs().month(currentMonth).date(day).format("YYYY-MM-DD");
+      //如果是节假日，不排班
+      if (offDaysMap.has(date)) {
+        schedule.push({
+          type: "success",
+          content: offDaysMap.get(date),
+          date: date,
+        });
+        continue;
+      }
+      //如果是周末，且不是补班日，不排班
+      if ((dayOfWeek === 0 || dayOfWeek === 6) && !workDaysMap.has(date)) {
+        continue;
+      }
       for (let period = 1; period <= 2; period++) {
         const userIndex = ((day - 1) * 2 + period - 1) % userList.length;
         const user = userList[userIndex];
         const timePeriod = period === 1 ? "上午" : "下午";
-        const date = dayjs().month(currentMonth).date(day).format("YYYY-MM-DD");
-
         schedule.push({
           type: "success",
           content: `${timePeriod}: ${user.name}`,
