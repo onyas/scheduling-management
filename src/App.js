@@ -13,8 +13,8 @@ import {
   Routes,
 } from 'react-router-dom';
 
-import SchedulePage from './SchedulePage';
-import UsersPage from './UsersPage';
+import SchedulePage from './views/SchedulePage';
+import UsersPage from './views/UsersPage';
 
 const { Header, Content, Sider } = Layout;
 
