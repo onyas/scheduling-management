@@ -14,6 +14,7 @@ const SchedulePage = () => {
   const [scheduleList, setScheduleList] = useState([]);
   const [userList, setUserList] = useState([]);
   const [selectedMonth, setSelectedMonth] = useState(dayjs().format("YYYY-MM"));
+  const [selectedItem, setSelectedItem] = useState({}); // 选中的日程
 
   const offDaysMap = new Map();
   const workDaysMap = new Map();
@@ -25,6 +26,7 @@ const SchedulePage = () => {
       workDaysMap.set(date, "补班");
     }
   });
+
   useEffect(() => {
     const loadUserList = async () => {
       const db = await openDB("userDB", "users");
@@ -137,9 +139,37 @@ const SchedulePage = () => {
     message.success("清理成功");
   };
 
+  const getDaysSchedule = (value) => {
+    return scheduleList
+      .filter((event) => event.date === value.format("YYYY-MM-DD"))
+      .map((event) => ({
+        id: event.id,
+        type: event.type,
+        content: event.content,
+      }));
+  };
+
   const handleSelectMonth = (month) => {
     console.log("selected month", month);
     setSelectedMonth(month);
+
+    setSelectedItem(getDaysSchedule(month));
+  };
+
+  const handleItemDeleted = async (itemId, date) => {
+    console.log("schedule deleted", itemId, date);
+    const db = await openDB("scheduleDB", "scheduleList");
+    await deleteById(db, "scheduleList", itemId);
+    setScheduleList(await fetchData(db, "scheduleList"));
+    setSelectedItem(getDaysSchedule(dayjs(date)));
+  };
+
+  const handleScheduleAdded = async (schedule) => {
+    console.log("schedule added", schedule);
+    const db = await openDB("scheduleDB", "scheduleList");
+    await addData(db, "scheduleList", schedule);
+    setScheduleList(await fetchData(db, "scheduleList"));
+    setSelectedItem(getDaysSchedule(dayjs(schedule.date)));
   };
 
   return (
@@ -150,7 +180,11 @@ const SchedulePage = () => {
       />
       <ScheduleCalendar
         events={scheduleList}
+        users={userList}
+        selectedItem={selectedItem}
         onMonthChange={handleSelectMonth}
+        onItemDeleted={handleItemDeleted}
+        onScheduleAdded={handleScheduleAdded}
       />
     </div>
   );

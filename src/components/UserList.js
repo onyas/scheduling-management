@@ -10,20 +10,25 @@ const { Column } = Table;
 
 const UserList = ({ users, deleteUser }) => {
   console.log('UserList users:', users);
-  return (<div>
-  <Table dataSource={users} rowKey="id">
+  return (
+    <div>
+      <Table dataSource={users} rowKey="id">
         <Column title="名字" dataIndex="name" key="name" />
         <Column
           title="操作"
           key="action"
           render={(text, record) => (
-            <Button type="danger" size="small" onClick={() => deleteUser(record.id)}>
+            <Button
+              type="danger"
+              size="small"
+              onClick={() => deleteUser(record.id)}>
               删除
             </Button>
           )}
         />
       </Table>
-      </div>);
+    </div>
+  );
 };
 
 export default UserList;
