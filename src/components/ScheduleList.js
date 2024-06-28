@@ -3,8 +3,6 @@ import React, {
   useState,
 } from 'react';
 
-import { List } from 'antd';
-
 import {
   fetchData,
   openDB,
@@ -27,22 +25,7 @@ const ScheduleList = () => {
 
   return (
     <div>
-      {schedules.length > 0 ? (
-        <List
-          itemLayout="horizontal"
-          dataSource={schedules}
-          renderItem={(item, index) => (
-            <List.Item>
-              <List.Item.Meta
-                title={item.title}
-                description={item.description}
-              />
-            </List.Item>
-          )}
-        />
-      ) : (
-        <CalendarComponent />
-      )}
+      <CalendarComponent />
     </div>
   );
 };
