@@ -116,8 +116,8 @@ const SchedulePage = () => {
     const idsToDelete = scheduleInDB
       .filter(
         (event) =>
-          dayjs(event.date).isBefore(currentMonthStart) ||
-          dayjs(event.date).isAfter(currentMonthEnd)
+          dayjs(event.date).isAfter(currentMonthStart) ||
+          dayjs(event.date).isBefore(currentMonthEnd)
       )
       .map((event) => event.id);
 
