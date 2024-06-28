@@ -146,6 +146,7 @@ const SchedulePage = () => {
         id: event.id,
         type: event.type,
         content: event.content,
+        date: event.date,
       }));
   };
 

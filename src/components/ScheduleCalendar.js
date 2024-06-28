@@ -53,10 +53,6 @@ const ScheduleCalendar = ({
     setSelectedDate(value);
   };
 
-  const handleOk = () => {
-    setVisible(false);
-  };
-
   const handleCancel = () => {
     setVisible(false);
   };
@@ -71,8 +67,8 @@ const ScheduleCalendar = ({
       <Modal
         title={`重新排班`}
         open={visible}
-        onOk={handleOk}
-        onCancel={handleCancel}>
+        onCancel={handleCancel}
+        footer={null}>
         <div>
           <ScheduleForm
             users={users}
