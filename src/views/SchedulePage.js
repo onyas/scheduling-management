@@ -7,6 +7,8 @@ import ScheduleButton from "../components/ScheduleButton";
 import ScheduleCalendar from "../components/ScheduleCalendar";
 import { addData, fetchData, openDB } from "../utils/indexedDB";
 
+dayjs.locale("zh-cn");
+
 const SchedulePage = () => {
   const [scheduleList, setScheduleList] = useState([]);
   const [userList, setUserList] = useState([]);
@@ -30,6 +32,14 @@ const SchedulePage = () => {
   }, []);
 
   const handleStartScheduling = async () => {
+    const thisMonth = scheduleList.filter(
+      (event) =>
+        dayjs(event.date).format("YYYY-MM") === dayjs().format("YYYY-MM")
+    );
+    if (thisMonth.length > 0) {
+      message.error("本月已排班，请勿重复排班");
+      return;
+    }
     const db = await openDB("userDB", "users");
     const userList = await fetchData(db, "users");
     const scheduleDB = await openDB("scheduleDB", "scheduleList");
