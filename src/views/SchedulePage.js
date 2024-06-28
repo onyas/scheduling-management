@@ -59,14 +59,14 @@ const SchedulePage = () => {
     const currentMonth = dayjs().month(); // 获取当前月份
     const daysInMonth = dayjs().endOf("month").date(); // 获取当前月份的天数
     let schedule = [];
-
+    let workDay = 1;
     for (let day = 1; day <= daysInMonth; day++) {
       const dayOfWeek = dayjs().month(currentMonth).date(day).day();
       const date = dayjs().month(currentMonth).date(day).format("YYYY-MM-DD");
       //如果是节假日，不排班
       if (offDaysMap.has(date)) {
         schedule.push({
-          type: "success",
+          type: "error",
           content: offDaysMap.get(date),
           date: date,
         });
@@ -77,7 +77,7 @@ const SchedulePage = () => {
         continue;
       }
       for (let period = 1; period <= 2; period++) {
-        const userIndex = ((day - 1) * 2 + period - 1) % userList.length;
+        const userIndex = ((workDay - 1) * 2 + period - 1) % userList.length;
         const user = userList[userIndex];
         const timePeriod = period === 1 ? "上午" : "下午";
         schedule.push({
@@ -86,6 +86,7 @@ const SchedulePage = () => {
           date: date,
         });
       }
+      workDay++;
     }
 
     schedule.forEach(async (item) => {
