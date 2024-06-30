@@ -14,7 +14,7 @@ const SchedulePage = () => {
   const [scheduleList, setScheduleList] = useState([]);
   const [userList, setUserList] = useState([]);
   const [selectedMonth, setSelectedMonth] = useState(dayjs().format("YYYY-MM"));
-  const [selectedItem, setSelectedItem] = useState({}); // 选中的日程
+  const [selectedItem, setSelectedItem] = useState([]); // 选中的日程
 
   const offDaysMap = new Map();
   const workDaysMap = new Map();

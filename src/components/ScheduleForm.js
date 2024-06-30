@@ -22,7 +22,7 @@ const ScheduleForm = ({ users, onScheduleAdded, selectedDate }) => {
           <Form.Item
             name="period"
             label="值班时间"
-            rules={[{ required: true, message: "请输入姓名!" }]}>
+            rules={[{ required: true, message: "请输入时间!" }]}>
             <Select style={{ width: 70 }}>
               <Option value="上午">上午</Option>
               <Option value="下午">下午</Option>
