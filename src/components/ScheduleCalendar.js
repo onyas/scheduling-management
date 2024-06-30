@@ -66,7 +66,9 @@ const ScheduleCalendar = ({
         onSelect={handleMonthChange}
       />
       <Modal
-        title={`重新排班: ${selectedDate.format("YYYY-MM-DD")}`}
+        title={`重新排班: ${
+          selectedDate === null ? null : selectedDate.format("YYYY-MM-DD")
+        }`}
         open={visible}
         onCancel={handleCancel}
         footer={null}>
