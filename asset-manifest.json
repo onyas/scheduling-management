@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/scheduling-management/static/css/main.f855e6bc.css",
+    "main.js": "/scheduling-management/static/js/main.8605558d.js",
+    "static/js/453.0980099b.chunk.js": "/scheduling-management/static/js/453.0980099b.chunk.js",
+    "index.html": "/scheduling-management/index.html",
+    "main.f855e6bc.css.map": "/scheduling-management/static/css/main.f855e6bc.css.map",
+    "main.8605558d.js.map": "/scheduling-management/static/js/main.8605558d.js.map",
+    "453.0980099b.chunk.js.map": "/scheduling-management/static/js/453.0980099b.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.f855e6bc.css",
+    "static/js/main.8605558d.js"
+  ]
+}
