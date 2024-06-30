@@ -150,6 +150,17 @@ const SchedulePage = () => {
       }));
   };
 
+  const getDaysSelectedSchedule = (latestSchedule, value) => {
+    return latestSchedule
+      .filter((event) => event.date === value.format("YYYY-MM-DD"))
+      .map((event) => ({
+        id: event.id,
+        type: event.type,
+        content: event.content,
+        date: event.date,
+      }));
+  };
+
   const handleSelectMonth = (month) => {
     console.log("selected month", month);
     setSelectedMonth(month);
@@ -161,16 +172,26 @@ const SchedulePage = () => {
     console.log("schedule deleted", itemId, date);
     const db = await openDB("scheduleDB", "scheduleList");
     await deleteById(db, "scheduleList", itemId);
-    setScheduleList(await fetchData(db, "scheduleList"));
-    setSelectedItem(getDaysSchedule(dayjs(date)));
+    const latestScheduleList = await fetchData(db, "scheduleList");
+    setScheduleList(latestScheduleList);
+    const daysSchedule = getDaysSelectedSchedule(
+      latestScheduleList,
+      dayjs(date)
+    );
+    setSelectedItem(daysSchedule);
   };
 
   const handleScheduleAdded = async (schedule) => {
     console.log("schedule added", schedule);
     const db = await openDB("scheduleDB", "scheduleList");
     await addData(db, "scheduleList", schedule);
-    setScheduleList(await fetchData(db, "scheduleList"));
-    setSelectedItem(getDaysSchedule(dayjs(schedule.date)));
+    const latestScheduleList = await fetchData(db, "scheduleList");
+    setScheduleList(latestScheduleList);
+    const daysSchedule = getDaysSelectedSchedule(
+      latestScheduleList,
+      dayjs(schedule.date)
+    );
+    setSelectedItem(daysSchedule);
   };
 
   return (
